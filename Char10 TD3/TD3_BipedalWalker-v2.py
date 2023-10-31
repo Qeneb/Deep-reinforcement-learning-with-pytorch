@@ -281,6 +281,7 @@ def main():
         if args.load: agent.load()
         for i in range(args.num_iteration):
             state = env.reset()
+            state = state[0]
             print(state)
             for t in range(2000):
 

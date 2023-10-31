@@ -17,9 +17,9 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--mode', default='train', type=str) # mode = 'train' or 'test'
-# OpenAI gym environment name, # ['BipedalWalker-v2', 'Pendulum-v0'] or any continuous environment
+# OpenAI gym environment name, # ['BipedalWalker-v3', 'Pendulum-v0'] or any continuous environment
 # Note that if you want test in another game, you should fine-tuning.
-parser.add_argument("--env_name", default="BipedalWalker-v2")
+parser.add_argument("--env_name", default="BipedalWalker-v3")
 parser.add_argument('--tau',  default=0.005, type=float) # target smoothing coefficient
 parser.add_argument('--target_update_interval', default=1, type=int)
 parser.add_argument('--test_iteration', default=10, type=int)

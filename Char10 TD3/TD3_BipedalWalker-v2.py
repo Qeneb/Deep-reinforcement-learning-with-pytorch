@@ -58,6 +58,8 @@ if args.seed:
     env.seed(args.random_seed)
     torch.manual_seed(args.random_seed)
     np.random.seed(args.random_seed)
+if args.save_gif:
+    env.render_mode = 'rgb_array'
 
 state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.shape[0]
@@ -273,9 +275,9 @@ def main():
                 done = result[2]
                 info = result[3]
                 ep_r += reward
-                #env.render()
+                # env.render()
                 if args.save_gif:
-                    img = env.render(render_mode='rgb_array')
+                    img = env.render()
                     img = Image.fromarray(img)
                     img.save('./gif/{}.jpg'.format(t))
                 if done or t == 2000:

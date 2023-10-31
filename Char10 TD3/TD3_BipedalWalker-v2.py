@@ -289,7 +289,6 @@ def main():
                 action = action + np.random.normal(0, args.exploration_noise, size=env.action_space.shape[0])
                 action = action.clip(env.action_space.low, env.action_space.high)
                 result = env.step(action)
-                print(result)
                 next_state = result[0]
                 reward = result[1]
                 done = result[2]

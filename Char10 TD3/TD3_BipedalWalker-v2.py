@@ -48,19 +48,16 @@ parser.add_argument('--max_episode', default=2000, type=int)
 parser.add_argument('--print_log', default=5, type=int)
 args = parser.parse_args()
 
-
-
-
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 script_name = os.path.basename(__file__)
-env = gym.make(args.env_name)
+if args.save_gif:
+    env = gym.make(args.env_name, render_mode='rgb_array')
+else:
+    env = gym.make(args.env_name, render_mode='huamn')
 if args.seed:
     env.seed(args.random_seed)
     torch.manual_seed(args.random_seed)
     np.random.seed(args.random_seed)
-if args.save_gif:
-    print(env.render_mode)
-    #env.render_mode = 'rgb_array'
 
 state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.shape[0]

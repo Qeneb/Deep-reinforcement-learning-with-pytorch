@@ -35,7 +35,7 @@ parser.add_argument('--random_seed', default=9527, type=int)
 # optional parameters
 parser.add_argument('--num_hidden_layers', default=2, type=int)
 parser.add_argument('--sample_frequency', default=256, type=int)
-parser.add_argument('--render', default=True, type=bool) # show UI or not
+parser.add_argument('--render', default=False, type=bool) # show UI or not
 parser.add_argument('--save_gif', default=False, type=bool)
 parser.add_argument('--log_interval', default=50, type=int) #
 parser.add_argument('--load', default=False, type=bool) # load model
@@ -53,7 +53,7 @@ script_name = os.path.basename(__file__)
 if args.save_gif:
     env = gym.make(args.env_name, render_mode='rgb_array')
 else:
-    env = gym.make(args.env_name, render_mode='ansi')
+    env = gym.make(args.env_name)
 if args.seed:
     env.seed(args.random_seed)
     torch.manual_seed(args.random_seed)
@@ -312,9 +312,9 @@ def main():
                 # next_state, reward, done, info = env.step(action)
                 ep_r += reward
                 if args.render and i >= args.render_interval:
-                    print(env.render())
-                agent.memory.push((state, next_state, action, reward, np.float(done)))
-                if i+1 % 10 == 0:
+                    env.render()
+                agent.memory.push((state, next_state, action, reward, np.float64(done)))
+                if i % 10 == 0:
                     print('Episode {},  The memory size is {} '.format(i, len(agent.memory.storage)))
                 if len(agent.memory.storage) >= args.capacity-1:
                     agent.update(10)

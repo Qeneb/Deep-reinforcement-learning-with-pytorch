@@ -1,6 +1,7 @@
 import argparse
 from collections import namedtuple
 from itertools import count
+from PIL import Image
 
 import os, sys, random
 import numpy as np
@@ -27,7 +28,7 @@ parser.add_argument('--test_iteration', default=10, type=int)
 parser.add_argument('--learning_rate', default=3e-4, type=float)
 parser.add_argument('--gamma', default=0.99, type=int) # discounted factor
 parser.add_argument('--capacity', default=50000, type=int) # replay buffer size
-parser.add_argument('--num_iteration', default=100000, type=int) #  num of  games
+parser.add_argument('--num_iteration', default=100, type=int) #  num of  games
 parser.add_argument('--batch_size', default=100, type=int) # mini batch size
 parser.add_argument('--seed', default=False, type=bool)
 parser.add_argument('--random_seed', default=9527, type=int)
@@ -35,6 +36,7 @@ parser.add_argument('--random_seed', default=9527, type=int)
 parser.add_argument('--num_hidden_layers', default=2, type=int)
 parser.add_argument('--sample_frequency', default=256, type=int)
 parser.add_argument('--render', default=False, type=bool) # show UI or not
+parser.add_argument('--save_gif', default=True, type=bool)
 parser.add_argument('--log_interval', default=50, type=int) #
 parser.add_argument('--load', default=False, type=bool) # load model
 parser.add_argument('--render_interval', default=100, type=int) # after render_interval, the env.render() will work
@@ -267,12 +269,23 @@ def main():
                 next_state, reward, done, info = env.step(np.float32(action))
                 ep_r += reward
                 env.render()
-                if done or t ==2000 :
+                if args.save_gif:
+                    img = env.render(mode='rgb_array')
+                    img = Image.fromarray(img)
+                    img.save('./gif/{}.jpg'.format(t))
+                if done or t == 2000:
                     print("Ep_i \t{}, the ep_r is \t{:0.2f}, the step is \t{}".format(i, ep_r, t))
+                    if args.save_gif:
+                        img_names = os.listdir('./gif')
+                        img_list = []
+                        for img_name in img_names:
+                            img_list.append(Image.open(img_name))
+                        img_list[0].save('./GIF/{}.gif'.format(i), format="GIF", save_all=True, append_images=img_list[1:], duration=20, loop=0)
+                        for img_name in img_names:
+                            os.remove(img_name)
                     ep_r = 0
                     break
                 state = next_state
-
 
     elif args.mode == 'train':
         print("====================================")
@@ -283,7 +296,6 @@ def main():
             state = env.reset()
             state = state[0]
             for t in range(2000):
-
                 action = agent.select_action(state)
                 action = action + np.random.normal(0, args.exploration_noise, size=env.action_space.shape[0])
                 action = action.clip(env.action_space.low, env.action_space.high)
@@ -314,6 +326,7 @@ def main():
 
     else:
         raise NameError("mode wrong!!!")
+
 
 if __name__ == '__main__':
     main()

@@ -264,6 +264,7 @@ def main():
         agent.load()
         for i in range(args.test_iteration):
             state = env.reset()
+            state = state[0]
             for t in count():
                 action = agent.select_action(state)
                 next_state, reward, done, info = env.step(np.float32(action))

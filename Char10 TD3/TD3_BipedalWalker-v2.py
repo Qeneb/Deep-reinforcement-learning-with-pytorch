@@ -28,7 +28,7 @@ parser.add_argument('--test_iteration', default=10, type=int)
 parser.add_argument('--learning_rate', default=3e-4, type=float)
 parser.add_argument('--gamma', default=0.99, type=int) # discounted factor
 parser.add_argument('--capacity', default=50000, type=int) # replay buffer size
-parser.add_argument('--num_iteration', default=100, type=int) #  num of  games
+parser.add_argument('--num_iteration', default=1000, type=int) #  num of  games
 parser.add_argument('--batch_size', default=100, type=int) # mini batch size
 parser.add_argument('--seed', default=False, type=bool)
 parser.add_argument('--random_seed', default=9527, type=int)
@@ -53,7 +53,7 @@ script_name = os.path.basename(__file__)
 if args.save_gif:
     env = gym.make(args.env_name, render_mode='rgb_array')
 else:
-    env = gym.make(args.env_name, render_mode='huamn')
+    env = gym.make(args.env_name)
 if args.seed:
     env.seed(args.random_seed)
     torch.manual_seed(args.random_seed)

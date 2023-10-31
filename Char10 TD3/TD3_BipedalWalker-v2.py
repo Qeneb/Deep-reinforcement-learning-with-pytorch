@@ -294,7 +294,7 @@ def main():
                 reward = result[1]
                 done = result[2]
                 info = result[3]
-                #next_state, reward, done, info = env.step(action)
+                # next_state, reward, done, info = env.step(action)
                 ep_r += reward
                 if args.render and i >= args.render_interval : env.render()
                 agent.memory.push((state, next_state, action, reward, np.float(done)))

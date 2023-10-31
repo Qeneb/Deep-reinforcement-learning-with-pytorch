@@ -36,7 +36,7 @@ parser.add_argument('--random_seed', default=9527, type=int)
 parser.add_argument('--num_hidden_layers', default=2, type=int)
 parser.add_argument('--sample_frequency', default=256, type=int)
 parser.add_argument('--render', default=True, type=bool) # show UI or not
-parser.add_argument('--save_gif', default=True, type=bool)
+parser.add_argument('--save_gif', default=False, type=bool)
 parser.add_argument('--log_interval', default=50, type=int) #
 parser.add_argument('--load', default=False, type=bool) # load model
 parser.add_argument('--render_interval', default=100, type=int) # after render_interval, the env.render() will work
@@ -311,7 +311,7 @@ def main():
                 info = result[3]
                 # next_state, reward, done, info = env.step(action)
                 ep_r += reward
-                if args.render and i >= args.render_interval :
+                if args.render and i >= args.render_interval:
                     print(env.render())
                 agent.memory.push((state, next_state, action, reward, np.float(done)))
                 if i+1 % 10 == 0:

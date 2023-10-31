@@ -49,6 +49,7 @@ parser.add_argument('--print_log', default=5, type=int)
 args = parser.parse_args()
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
+torch.cuda.set_device(3)
 script_name = os.path.basename(__file__)
 if args.save_gif:
     env = gym.make(args.env_name, render_mode='rgb_array')
@@ -285,7 +286,7 @@ def main():
                         img_list = []
                         for img_name in img_names:
                             img_list.append(Image.open('./gif/'+img_name))
-                        img_list[0].save('./GIF/{}.gif'.format(i), format="GIF", save_all=True, append_images=img_list[1:], duration=20, loop=0)
+                        img_list[0].save('./GIF/{}.gif'.format(i), format="GIF", save_all=True, append_images=img_list[1:], duration=200, loop=0)
                         for img_name in img_names:
                             os.remove('./gif/'+img_name)
                     ep_r = 0
@@ -314,7 +315,7 @@ def main():
                 if args.render and i >= args.render_interval:
                     env.render()
                 agent.memory.push((state, next_state, action, reward, np.float64(done)))
-                if i % 10 == 0:
+                if i+1 % 10 == 0:
                     print('Episode {},  The memory size is {} '.format(i, len(agent.memory.storage)))
                 if len(agent.memory.storage) >= args.capacity-1:
                     agent.update(10)
@@ -335,4 +336,5 @@ def main():
 
 
 if __name__ == '__main__':
+    setproctitle.setproctitle('Bipedalwalker-v3 By dhk')
     main()

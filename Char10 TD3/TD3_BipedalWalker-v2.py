@@ -59,7 +59,8 @@ if args.seed:
     torch.manual_seed(args.random_seed)
     np.random.seed(args.random_seed)
 if args.save_gif:
-    env.render_mode = 'rgb_array'
+    print(env.render_mode)
+    #env.render_mode = 'rgb_array'
 
 state_dim = env.observation_space.shape[0]
 action_dim = env.action_space.shape[0]

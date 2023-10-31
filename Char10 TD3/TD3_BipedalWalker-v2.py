@@ -282,7 +282,6 @@ def main():
         for i in range(args.num_iteration):
             state = env.reset()
             state = state[0]
-            print(state)
             for t in range(2000):
 
                 action = agent.select_action(state)

@@ -267,7 +267,11 @@ def main():
             state = state[0]
             for t in count():
                 action = agent.select_action(state)
-                next_state, reward, done, info = env.step(np.float32(action))
+                result = env.step(action)
+                next_state = result[0]
+                reward = result[1]
+                done = result[2]
+                info = result[3]
                 ep_r += reward
                 env.render()
                 if args.save_gif:

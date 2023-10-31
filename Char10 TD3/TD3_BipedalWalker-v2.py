@@ -281,6 +281,7 @@ def main():
         if args.load: agent.load()
         for i in range(args.num_iteration):
             state = env.reset()
+            state = np.array(state)
             for t in range(2000):
 
                 action = agent.select_action(state)

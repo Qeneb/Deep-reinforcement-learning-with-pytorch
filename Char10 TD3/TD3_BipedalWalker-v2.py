@@ -275,7 +275,7 @@ def main():
                 ep_r += reward
                 #env.render()
                 if args.save_gif:
-                    img = env.render(mode='rgb_array')
+                    img = env.render(render_mode='rgb_array')
                     img = Image.fromarray(img)
                     img.save('./gif/{}.jpg'.format(t))
                 if done or t == 2000:

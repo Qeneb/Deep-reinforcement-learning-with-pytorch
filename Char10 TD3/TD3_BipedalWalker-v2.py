@@ -288,7 +288,13 @@ def main():
                 action = agent.select_action(state)
                 action = action + np.random.normal(0, args.exploration_noise, size=env.action_space.shape[0])
                 action = action.clip(env.action_space.low, env.action_space.high)
-                next_state, reward, done, info = env.step(action)
+                result = env.step(action)
+                print(result)
+                next_state = result[0]
+                reward = result[1]
+                done = result[2]
+                info = result[3]
+                #next_state, reward, done, info = env.step(action)
                 ep_r += reward
                 if args.render and i >= args.render_interval : env.render()
                 agent.memory.push((state, next_state, action, reward, np.float(done)))

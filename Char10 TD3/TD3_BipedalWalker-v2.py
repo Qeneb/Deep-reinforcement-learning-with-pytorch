@@ -309,8 +309,6 @@ def main():
                 reward = result[1]
                 done = result[2]
                 info = result[3]
-                print(done)
-                print(info)
                 # next_state, reward, done, info = env.step(action)
                 ep_r += reward
                 if args.render and i >= args.render_interval :

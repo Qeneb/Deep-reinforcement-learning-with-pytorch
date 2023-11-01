@@ -258,6 +258,14 @@ class TD3():
         print("====================================")
 
 
+def sort_by_numeric_value(file):
+    file_name = os.path.splitext(file)[0]  # 去除文件扩展名
+    try:
+        return int(file_name)
+    except ValueError:
+        return float('inf')  # 对于无法解析为数字的文件名，将其排在最后
+
+
 def main():
     agent = TD3(state_dim, action_dim, max_action)
     ep_r = 0
@@ -283,7 +291,8 @@ def main():
                 if done or t == 2000:
                     print("Ep_i \t{}, the ep_r is \t{:0.2f}, the step is \t{}".format(i, ep_r, t))
                     if args.save_gif:
-                        img_names = os.listdir('./gif')
+                        unsorted_img_names = os.listdir('./gif')
+                        img_names = sorted(unsorted_img_names, key=sort_by_numeric_value)
                         img_list = []
                         for img_name in img_names:
                             img_list.append(Image.open('./gif/'+img_name))

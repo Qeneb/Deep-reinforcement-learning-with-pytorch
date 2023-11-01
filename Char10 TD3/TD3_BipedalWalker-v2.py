@@ -296,7 +296,7 @@ def main():
                         img_list = []
                         for img_name in img_names:
                             img_list.append(Image.open('./gif/'+img_name))
-                        img_list[0].save('./GIF/{}.gif'.format(i), format="GIF", save_all=True, append_images=img_list[1:], duration=200, loop=0)
+                        img_list[0].save('./GIF/{}.gif'.format(i), format="GIF", save_all=True, append_images=img_list[1:], duration=20, loop=0)
                         for img_name in img_names:
                             os.remove('./gif/'+img_name)
                     ep_r = 0
